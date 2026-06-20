@@ -1,9 +1,17 @@
-function App() {
+import Header from "./components/Header";
+import Login from "./components/Login";
+import { NETFLIX_BG_IMAGE_URL } from "./constants/Endpoint";
+
+const App = () => {
   return (
-    <div className="bg-red-100">
-      <h1>Netflix</h1>
+    <div className="relative">
+      <img src={NETFLIX_BG_IMAGE_URL} alt="background" />
+      <div className=" absolute inset-0 bg-black/50" />
+      <Header />
+      <Login />
+      {/* <div className="w-30 h-20 absolute bg-green-700"></div> */}
     </div>
   );
-}
+};
 
 export default App;
