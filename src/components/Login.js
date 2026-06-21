@@ -5,7 +5,6 @@ import {
 } from "firebase/auth";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { NETFLIX_BG_IMAGE_URL } from "../constants/Endpoint";
 import { setUserInfo } from "../redux/userInfoSlice";
@@ -18,7 +17,6 @@ const Login = () => {
   const passwordRef = useRef(null);
   const nameRef = useRef(null);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleAuth = (e) => {
@@ -27,7 +25,6 @@ const Login = () => {
       emailRef.current.value,
       passwordRef.current.value
     );
-    console.log(validationError, "validate");
     if (validationError) {
       setError(validationError);
       return;
@@ -63,12 +60,9 @@ const Login = () => {
       emailRef.current.value,
       passwordRef.current.value
     )
-      .then((userCredential) => {
+      .then(() => {
         // Signed in
-        const user = userCredential.user;
-        console.log(user, "signed in");
         toast.success("Login successful!");
-        navigate("/browse");
       })
       .catch((error) => {
         const errorCode = error.code;

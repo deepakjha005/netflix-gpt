@@ -7,11 +7,12 @@ const userInfoSlice = createSlice({
   },
   reducers: {
     setUserInfo: (state, action) => {
-      console.log(action.payload, "payload");
       state.user = action.payload;
-      console.log(state.user);
+    },
+    removeUserInfo: (state) => {
+      state.user = null;
     },
   },
 });
 export default userInfoSlice.reducer;
-export const { setUserInfo } = userInfoSlice.actions;
+export const { setUserInfo, removeUserInfo } = userInfoSlice.actions;
