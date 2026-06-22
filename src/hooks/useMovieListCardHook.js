@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { API_OPTIONS } from "../constants/Endpoint";
 import {
   setPopularMovies,
@@ -9,6 +9,10 @@ import {
 
 const useMovieListCardHook = () => {
   const dispatch = useDispatch();
+  const nowPlaying = useSelector((store) => store.movies?.nowPlayingMoviesList);
+  const popularMovies = useSelector((store) => store.movies?.popularMovies);
+  const topRatedMovies = useSelector((store) => store.movies?.topRatedMovies);
+  const upComingMovies = useSelector((store) => store.movies?.upcomingMovies);
 
   const fetchMovies = async (category, action) => {
     try {
@@ -25,13 +29,11 @@ const useMovieListCardHook = () => {
   };
 
   useEffect(() => {
-    fetchMovies("popular", setPopularMovies);
-    fetchMovies("top_rated", setTopRatedMovies);
-    fetchMovies("upcoming", setUpcomingMovies);
+    !popularMovies && fetchMovies("popular", setPopularMovies);
+    !topRatedMovies && fetchMovies("top_rated", setTopRatedMovies);
+    !upComingMovies && fetchMovies("upcoming", setUpcomingMovies);
   }, []);
+
+  return { nowPlaying, popularMovies, upComingMovies, topRatedMovies };
 };
 export default useMovieListCardHook;
-
-// fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
-// fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options)
-// fetch('https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1', options)

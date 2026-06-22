@@ -1,12 +1,9 @@
-import { useSelector } from "react-redux";
 import useNowPlayingHook from "../hooks/useNowPlayingHook";
 import HomeTrailer from "./HomeTrailer";
 import HomeTrailerVideoDescription from "./HomeTrailerVideoDescription";
 
 const MainContainer = () => {
-  const movieList = useSelector((store) => store.movies?.nowPlayingMoviesList);
-  console.log(movieList, "called");
-  useNowPlayingHook();
+  const { movieList } = useNowPlayingHook();
   if (!movieList) return;
   return (
     <div>

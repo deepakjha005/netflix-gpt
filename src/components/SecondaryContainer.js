@@ -1,13 +1,10 @@
-import { useSelector } from "react-redux";
 import useMovieListCardHook from "../hooks/useMovieListCardHook";
 import MovieCard from "./MovieCard";
 
 const SecondaryContainer = () => {
-  useMovieListCardHook();
-  const nowPlaying = useSelector((store) => store.movies?.nowPlayingMoviesList);
-  const popularMovies = useSelector((store) => store.movies?.popularMovies);
-  const topRatedMovies = useSelector((store) => store.movies?.topRatedMovies);
-  const upComingMovies = useSelector((store) => store.movies?.upcomingMovies);
+  const { nowPlaying, popularMovies, topRatedMovies, upComingMovies } =
+    useMovieListCardHook();
+
   if (!nowPlaying || !popularMovies || !topRatedMovies || !upComingMovies)
     return;
 
