@@ -12,7 +12,7 @@ const SecondaryContainer = () => {
     return;
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 h-40">
+    <div className=" absolute md:bottom-0 left-0 right-0 h-40 bottom-20">
       <MovieCard movieData={nowPlaying} title="Now Playing" />
       <MovieCard movieData={popularMovies} title="Popular" />
       <MovieCard movieData={topRatedMovies} title="Top Rated" />

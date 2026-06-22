@@ -5,7 +5,7 @@ const HomeTrailer = ({ movieId }) => {
   useTrailerHook(movieId);
   const trailerKey = useSelector((store) => store.movies?.movieTrailer);
   return (
-    <div className="w-screen h-screen overflow-hidden">
+    <div className="w-screen h-screen overflow-hidden -mt-12">
       <iframe
         className="w-full h-full"
         src={`https://www.youtube.com/embed/${trailerKey?.key}?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1`}
