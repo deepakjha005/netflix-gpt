@@ -1,109 +1,33 @@
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
-import { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import { NETFLIX_BG_IMAGE_URL } from "../constants/Endpoint";
-import { setUserInfo, setUserLogin } from "../redux/userInfoSlice";
-import { auth } from "../utils/firebase";
-import { validateInputFields } from "../utils/validate";
+import useLoginHook from "../redux/useLogin";
+import { lang } from "../utils/language";
 
 const Login = () => {
-  const [isSignIn, setIsSignIn] = useState(true);
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-  const nameRef = useRef(null);
-  const [error, setError] = useState(null);
-  const dispatch = useDispatch();
+  const {
+    error,
+    nameRef,
+    handleAuth,
+    isSignIn,
+    emailRef,
+    passwordRef,
+    setIsSignIn,
+    language,
+  } = useLoginHook();
 
-  const handleAuth = (e) => {
-    e.preventDefault();
-    const validationError = validateInputFields(
-      emailRef.current.value,
-      passwordRef.current.value
-    );
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
-    setError(null);
-    handleSignInSignUp();
-  };
-  const handleSignInSignUp = () => {
-    // Sign Up
-    if (!isSignIn) {
-      createUserWithEmailAndPassword(
-        auth,
-        emailRef.current.value,
-        passwordRef.current.value
-      )
-        .then((userCredential) => {
-          // Signed up
-          const user = userCredential.user;
-          updateProfileForUser(user);
-          dispatch(setUserLogin());
-          toast.success("sign up successful!");
-          setIsSignIn(!isSignIn);
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setError(errorCode + "-" + errorMessage);
-        });
-      return;
-    }
-    // sign in
-    signInWithEmailAndPassword(
-      auth,
-      emailRef.current.value,
-      passwordRef.current.value
-    )
-      .then(() => {
-        // Signed in
-        dispatch(setUserLogin());
-        toast.success("Login successful!");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setError(errorCode + "-" + errorMessage);
-      });
-  };
-
-  const updateProfileForUser = (user) => {
-    updateProfile(user, {
-      displayName: nameRef.current.value,
-      photoURL: NETFLIX_BG_IMAGE_URL,
-    })
-      .then(() => {
-        dispatch(
-          setUserInfo({
-            name: auth.currentUser.displayName,
-            photoURL: auth.currentUser.photoURL,
-          })
-        );
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
-  };
   return (
     <div className="w-56 md:w-1/4  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/60 rounded-xl px-4 md:px-0 ">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">
-          {isSignIn ? "Sign in " : "Sign up "}to your account
+          {isSignIn
+            ? lang?.[language].headingLoginForm
+            : lang?.[language].authHeadingSignUp}
         </h2>
       </div>
-
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={handleAuth} className="space-y-6">
           {!isSignIn && (
             <div>
               <label className="block text-sm/6 font-medium text-gray-100">
-                Full Name
+                {lang?.[language].fullName}
               </label>
               <div className="mt-2">
                 <input
@@ -119,7 +43,7 @@ const Login = () => {
 
           <div>
             <label className="block text-sm/6 font-medium text-gray-100">
-              Email address
+              {lang?.[language].email}
             </label>
             <div className="mt-2">
               <input
@@ -135,7 +59,7 @@ const Login = () => {
           <div>
             <div className="flex items-center justify-between">
               <label className="block text-sm/6 font-medium text-gray-100">
-                Password
+                {lang?.[language].password}
               </label>
             </div>
             <div className="mt-2">
@@ -154,7 +78,9 @@ const Login = () => {
               type="submit"
               className="flex w-full justify-center rounded-md bg-red-800 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-red-800 focus-visible:outline-2 focus-visible:outline-offset-2"
             >
-              {isSignIn ? "Sign in" : "Sign up"}
+              {isSignIn
+                ? lang?.[language].signInButtonLabel
+                : lang?.[language].signUp}
             </button>
           </div>
         </form>
@@ -164,12 +90,16 @@ const Login = () => {
         </p>
 
         <div className="mt-6 text-sm/6 text-gray-400 text-center flex justify-start mb-3">
-          {isSignIn ? "Not a member?" : "Already a member?"}
+          {isSignIn
+            ? lang?.[language].footerText
+            : lang?.[language].alreadyMember}
           <div
             className="text-white ml-2 cursor-pointer "
             onClick={() => setIsSignIn(!isSignIn)}
           >
-            {isSignIn ? "Sign up" : "Sign in"}
+            {isSignIn
+              ? lang?.[language].signUp
+              : lang?.[language].signInButtonLabel}
           </div>
         </div>
       </div>

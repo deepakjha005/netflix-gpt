@@ -1,33 +1,10 @@
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toggleGptSearch } from "../redux/gptSearchSlice";
-import { removeUserInfo } from "../redux/userInfoSlice";
-import { auth } from "../utils/firebase";
+import useHeaderHook from "../hooks/useHeaderHook";
+import { setLangTranslation } from "../redux/languageSlice";
+import { lang } from "../utils/language";
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const showGptSearch = useSelector((store) => store.gpt?.showGptSearch);
-  const handleSignOut = () => {
-    dispatch(removeUserInfo());
-    signOut(auth);
-  };
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate("/browse");
-      } else {
-        navigate("/");
-      }
-    });
-    return () => unsubscribe();
-  }, []);
-
-  const handleGPTSearch = () => {
-    dispatch(toggleGptSearch());
-  };
+  const { language, dispatch, handleGPTSearch, showGptSearch, handleSignOut } =
+    useHeaderHook();
   return (
     <div className="h-20 absolute top-0 flex justify-between w-full  items-center px-2 z-20">
       <img
@@ -36,14 +13,23 @@ const Header = () => {
         className="md:h-16 h-12"
       />
       <div className="flex">
+        <select
+          value={language}
+          onChange={(e) => dispatch(setLangTranslation(e.target.value))}
+          className=" p-2 rounded-md font-semibold"
+        >
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+          <option value="fr">French</option>
+        </select>
         <div className=" bg-gray-500  rounded-lg text-white text-sm  md:text-lg px-2 py-2 mx-2">
           <button onClick={handleGPTSearch}>
-            {showGptSearch ? "Home Screen" : "GPT Search"}
+            {showGptSearch ? "Home Screen" : lang?.[language].gptSearch}
           </button>
         </div>
 
         <div className=" bg-red-700  rounded-lg text-white text-sm  md:text-lg px-2 py-2 mx-2">
-          <button onClick={handleSignOut}>Sign Out</button>
+          <button onClick={handleSignOut}>{lang?.[language].signOut}</button>
         </div>
       </div>
     </div>
