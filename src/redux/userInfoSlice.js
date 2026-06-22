@@ -4,6 +4,7 @@ const userInfoSlice = createSlice({
   name: "userInfoSlice",
   initialState: {
     user: null,
+    isLogin: false,
   },
   reducers: {
     setUserInfo: (state, action) => {
@@ -12,7 +13,11 @@ const userInfoSlice = createSlice({
     removeUserInfo: (state) => {
       state.user = null;
     },
+    setUserLogin: (state) => {
+      state.isLogin = true;
+    },
   },
 });
 export default userInfoSlice.reducer;
-export const { setUserInfo, removeUserInfo } = userInfoSlice.actions;
+export const { setUserInfo, removeUserInfo, setUserLogin } =
+  userInfoSlice.actions;

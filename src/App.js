@@ -13,7 +13,6 @@ const App = () => {
       <div className=" absolute inset-0 bg-black/50" />
       <Header />
       <Login />
-      {/* <div className="w-30 h-20 absolute bg-green-700"></div> */}
     </div>
   );
 };

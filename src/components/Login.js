@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { NETFLIX_BG_IMAGE_URL } from "../constants/Endpoint";
-import { setUserInfo } from "../redux/userInfoSlice";
+import { setUserInfo, setUserLogin } from "../redux/userInfoSlice";
 import { auth } from "../utils/firebase";
 import { validateInputFields } from "../utils/validate";
 
@@ -44,6 +44,7 @@ const Login = () => {
           // Signed up
           const user = userCredential.user;
           updateProfileForUser(user);
+          dispatch(setUserLogin());
           toast.success("sign up successful!");
           setIsSignIn(!isSignIn);
         })
@@ -62,6 +63,7 @@ const Login = () => {
     )
       .then(() => {
         // Signed in
+        dispatch(setUserLogin());
         toast.success("Login successful!");
       })
       .catch((error) => {
