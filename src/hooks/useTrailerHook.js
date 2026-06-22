@@ -6,13 +6,11 @@ import { setMovieTrailer } from "../redux/moviesListSlice";
 const useTrailerHook = (movieId) => {
   const dispatch = useDispatch();
   const fetchMovieTrailer = async () => {
-    console.log(movieId, "movieId");
     const movieTrailer = await fetch(
       `https://api.themoviedb.org/3/movie/${movieId}/videos`,
       API_OPTIONS
     );
     const json = await movieTrailer.json();
-    console.log(json?.results, "json?.results");
     const filterData = json?.results?.filter((key) => key?.type === "Trailer");
 
     dispatch(setMovieTrailer(filterData[0]));

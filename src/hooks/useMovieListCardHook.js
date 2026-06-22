@@ -23,9 +23,7 @@ const useMovieListCardHook = () => {
 
       const json = await response.json();
       dispatch(action(json.results));
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
