@@ -1,6 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userInfo from "../redux/userInfoSlice";
+import moviesListReducer from "../redux/moviesListSlice";
+import userInfoReducer from "../redux/userInfoSlice";
 
 export const store = configureStore({
-  reducer: userInfo,
+  reducer: {
+    user: userInfoReducer,
+    movies: moviesListReducer,
+  },
 });

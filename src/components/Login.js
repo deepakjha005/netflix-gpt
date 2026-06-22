@@ -89,7 +89,7 @@ const Login = () => {
       });
   };
   return (
-    <div className="w-1/4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/60 rounded-xl ">
+    <div className="w-56 md:w-1/4  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/60 rounded-xl px-4 md:px-0 ">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">
           {isSignIn ? "Sign in " : "Sign up "}to your account
